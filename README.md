@@ -40,17 +40,22 @@ Two consequences worth knowing before you install it:
 ## Install
 
 ```sh
-dsh plugin add github:<your-owner>/dsh-deepseek-usage
+dsh plugin add github:zhengwsg/dsh-deepseek-usage
 ```
+
+`dsh plugin` forwards to pnpm inside the profile directory and then reconciles
+`dsh.profile.bundles`, so the package is picked up because it declares `dsh.bundle`.
+
+There is **no build step**: `lib/client.js` and `lib/index.js` are committed as generated
+artifacts, and the package declares no `prepare` script. A git-hosted install therefore needs
+no `allowBuilds` approval — pnpm's build-script gate has nothing to block.
 
 Then restart the host process once (the host half is composed at startup) and reload the page.
-The plugin declares `dsh.bundle`, so it is installable with `dsh plugin add`.
 
-If your registry/storefront offers a prebuilt tarball, that skips the build-approval step. A
-prebuilt `.tgz` is attached to this repository's releases:
+A prebuilt tarball is attached to every release and can be used instead:
 
-```
-https://github.com/<owner>/dsh-deepseek-usage/releases/latest/download/dsh-deepseek-usage.tgz
+```sh
+dsh plugin add https://github.com/zhengwsg/dsh-deepseek-usage/releases/latest/download/dsh-deepseek-usage.tgz
 ```
 
 Requires a `DEEPSEEK_API_KEY` in the harness credential store (or the launch environment). With
