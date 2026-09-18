@@ -1510,6 +1510,45 @@ test("row layout: measured in a real browser — the OLD direct-child rule is th
  * 6. the composed classic-script bundle
  * ================================================================== */
 
+test("docs: the English and Chinese READMEs are a matched pair", () => {
+  // The shell's own packages ship `README.md` + `README.zh.md` with a language line on each
+  // side (e.g. `dsh-credentials`). This plugin follows that convention, and the pairing is
+  // asserted so a section added to one language cannot be forgotten in the other.
+  const enPath = join(PACKAGE_ROOT, "README.md");
+  const zhPath = join(PACKAGE_ROOT, "README.zh.md");
+  assert.ok(existsSync(enPath), "README.md must exist");
+  assert.ok(existsSync(zhPath), "README.zh.md must exist");
+
+  const en = readFileSync(enPath, "utf8");
+  const zh = readFileSync(zhPath, "utf8");
+
+  // Each side links to the other, using the shell's own wording, near the top.
+  assert.match(en.split("\n").slice(0, 6).join("\n"), /English \| \[中文\]\(README\.zh\.md\)/, "the English README links to the Chinese one");
+  assert.match(zh.split("\n").slice(0, 6).join("\n"), /\[English\]\(README\.md\) \| 中文/, "the Chinese README links back to the English one");
+
+  // Same heading outline length — the structure is the thing that drifts.
+  const headingCount = (text) => (text.match(/^#{2,3} .+$/gm) ?? []).length;
+  const enHeadings = headingCount(en);
+  assert.ok(enHeadings >= 7, `expected the README to have real sections, saw ${enHeadings}`);
+  assert.equal(headingCount(zh), enHeadings, `heading count differs: en=${enHeadings} zh=${headingCount(zh)}`);
+
+  // Code fences must pair up on both sides (a dropped fence swallows the rest of the file).
+  for (const [name, text] of [
+    ["README.md", en],
+    ["README.zh.md", zh],
+  ]) {
+    const fences = (text.match(/^```/gm) ?? []).length;
+    assert.equal(fences % 2, 0, `${name}: unbalanced code fence (${fences})`);
+  }
+
+  // Every relative link in the Chinese README must point at a file that exists.
+  for (const match of zh.matchAll(/\]\((?!https?:)([^)#]+)\)/g)) {
+    const target = match[1].split("#")[0];
+    if (target === "") continue;
+    assert.ok(existsSync(join(PACKAGE_ROOT, target)), `README.zh.md links to a missing path: ${target}`);
+  }
+});
+
 test("bundle: no ESM syntax, and the classic script parses", () => {
   const text = readFileSync(BUNDLE_PATH, "utf8");
   assert.ok(text.length > 10_000, "the composed browser half is inlined, not a stub");

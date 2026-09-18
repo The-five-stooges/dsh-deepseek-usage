@@ -1,5 +1,7 @@
 # dsh-deepseek-usage
 
+English | [中文](README.zh.md)
+
 A DSH web plugin that puts your **DeepSeek account balance in the sidebar footer, above the
 Settings row**, with a refresh button. Clicking the row opens a popover with the balance card,
 locally aggregated usage charts, a per-model breakdown table, and a link to

@@ -994,10 +994,19 @@ test("cache ruling: a cold /usage writes outside the package and re-reads clean"
   // The package manifest is a whitelist and must not name the cache at all.
   const manifest = JSON.parse(readFileSync(join(PACKAGE_ROOT, "package.json"), "utf8"));
   assert.ok(Array.isArray(manifest.files));
-  // The publish whitelist, pinned so a stray directory cannot ride along. DEVELOPMENT.md and
-  // LICENSE joined it when the package was prepared for public release; the point of the
-  // assertion is unchanged — nothing carrying machine-local state may be listed.
-  assert.deepEqual(manifest.files, ["lib", "src", "cordis.patch.yml", "README.md", "DEVELOPMENT.md", "LICENSE", "docs"]);
+  // The publish whitelist, pinned so a stray directory cannot ride along. DEVELOPMENT.md,
+  // README.zh.md and LICENSE joined it when the package was prepared for public release; the
+  // point of the assertion is unchanged — nothing carrying machine-local state may be listed.
+  assert.deepEqual(manifest.files, [
+    "lib",
+    "src",
+    "cordis.patch.yml",
+    "README.md",
+    "README.zh.md",
+    "DEVELOPMENT.md",
+    "LICENSE",
+    "docs",
+  ]);
   for (const entry of manifest.files) {
     assert.equal(entry.includes("ledger-cache"), false);
     assert.equal(entry.includes("node_modules"), false, "the machine-local node_modules junction must never be published");
