@@ -1,0 +1,17 @@
+# No end-of-line translation, anywhere.
+#
+# `lib/client.js` is a GENERATED bundle that the test suite compares byte-for-byte against
+# `src/client/*.mjs` ("every source module is inlined byte-for-byte"), so a checkout must
+# hand back exactly the bytes that were committed. An `eol=lf` rule would silently rewrite
+# every file on checkout and make that comparison, and every hash in the verification docs,
+# describe something other than the repository's content. `-text` disables all conversion.
+* -text
+
+# Real binaries (kept explicit so a future contributor does not "fix" them into text).
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.tgz binary
+*.zstd binary

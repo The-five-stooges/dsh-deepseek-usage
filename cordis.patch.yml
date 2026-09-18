@@ -1,0 +1,13 @@
+# Bundle patch for dsh-deepseek-usage: inserts this plugin's row into the
+# web profile roster. Applied as a profile bundle layer through the package's
+# `dsh.bundle.patch` manifest field (see docs/load-path.md for the verified
+# install path).
+#
+# Install (forwarder to pnpm in the profile directory):
+#   <DSH-Portable>\node\node.exe <runtime>\node_modules\@deepseek-ai\dsh\lib\bin.js \
+#     plugin --profile web-desktop add link:<abs path to this package>
+#
+# Rollback without uninstalling: set `disabled: true` on the row below.
+- insert:
+    - id: dsh-deepseek-usage
+      name: dsh-deepseek-usage

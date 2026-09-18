@@ -1,0 +1,66 @@
+{
+  "name": "dsh-deepseek-usage",
+  "version": "0.1.0",
+  "description": "DSH web plugin: a DeepSeek account balance row in the sidebar footer (above Settings) plus a popover with the balance card, locally aggregated usage charts and a per-model cost table. Estimates usage from local DSH session logs; reads balance from the official /user/balance endpoint.",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js"
+  },
+  "dsh": {
+    "engines": {
+      "dsh": ">=0.1.5-rc.1"
+    },
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "// inject": "Informational ordering hint only, NOT a capability declaration: the loader treats each id as a 'whose factory arrives first' edge and SILENTLY SKIPS ids it cannot resolve (dsh-client-modules parseDshClient reads only platform/inject/external/immediately and ignores unknown keys). The sidebar.footer.action slot is declared by @deepseek-ai/dsh-client-ui-sidebar (lib/client.js:296,399) - T5/T6 must verify slot availability at runtime instead of relying on this list, and must never depend on inject to guarantee a slot. Removed earlier: dsh-client-ui-slots (does not exist in this runtime) and dsh-host-webserver (host package, declares no dsh.client).",
+      "inject": [
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-renderer",
+        "@deepseek-ai/dsh-client-ui-sidebar"
+      ]
+    }
+  },
+  "peerDependencies": {
+    "react": "^18.2.0",
+    "@deepseek-ai/dsh-credentials": ">=0.0.1-rc.1 <0.1.0 || >=0.1.0-rc.1 <0.2.0-0"
+  },
+  "peerDependenciesMeta": {
+    "@deepseek-ai/dsh-credentials": {
+      "optional": true
+    }
+  },
+  "engines": {
+    "node": ">=22.15"
+  },
+  "files": [
+    "lib",
+    "src",
+    "cordis.patch.yml",
+    "README.md",
+    "DEVELOPMENT.md",
+    "LICENSE",
+    "docs"
+  ],
+  "keywords": [
+    "dsh-plugin",
+    "deepseek",
+    "balance",
+    "usage",
+    "tokens",
+    "cost"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhengwsg/dsh-deepseek-usage.git"
+  },
+  "homepage": "https://github.com/zhengwsg/dsh-deepseek-usage#readme",
+  "bugs": {
+    "url": "https://github.com/zhengwsg/dsh-deepseek-usage/issues"
+  },
+  "license": "MIT"
+}

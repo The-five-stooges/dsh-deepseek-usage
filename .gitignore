@@ -1,0 +1,23 @@
+# This package is loaded directly from %DSH_HOME%\plugins\, where bare package
+# specifiers do not resolve — the host half needs @deepseek-ai/dsh-credentials. The
+# junction that fixes that is a MACHINE-LOCAL binding (it points at this host's
+# runtime\node_modules) and must never be committed: recreate it per machine with
+#   New-Item -ItemType Junction -Path node_modules -Target <runtime>\node_modules
+node_modules/
+
+# Ledger index cache. The plugin writes it outside the package by default
+# (<DSH_HOME>/storages/dsh-deepseek-usage/ledger-cache), but a run with no DSH_HOME
+# or a bare ledger call can land one here — never ship it.
+.ledger-cache/
+
+# Release artifacts and logs
+*.tgz
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Editor / OS noise
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
