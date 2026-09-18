@@ -20,9 +20,9 @@ param(
   [ValidateSet('github', 'gitee', 'gitlab')]
   [string]$Platform = 'github',
 
-  # Your account name on that host (REQUIRED — there is no reliable way to guess it).
-  [Parameter(Mandatory = $true)]
-  [string]$Owner,
+  # Your account name on that host. Defaults to this project's own account; override it to
+  # publish a fork under a different name.
+  [string]$Owner = 'The-five-stooges',
 
   [string]$Repo = 'dsh-deepseek-usage',
 
@@ -127,7 +127,7 @@ try {
   }
 
   Say ""
-  Say "== verify the release URL resolves (replace owner) =="
+  Say "== verify the release URL resolves =="
   switch ($Platform) {
     'github' { Say "  curl -sSI https://github.com/$Owner/$Repo/releases/latest/download/dsh-deepseek-usage.tgz | Select-String '^HTTP'" }
     'gitee'  { Say "  curl -sSI https://gitee.com/$Owner/$Repo/releases/download/$Tag/dsh-deepseek-usage.tgz | Select-String '^HTTP'" }
@@ -136,10 +136,10 @@ try {
 
   Say ""
   Say "== after the repo is public =="
-  Say "  1. Set the repository URL in every file that names it (the entry file, README,"
-  Say "     package.json repository/homepage/bugs) — substitute $Owner, then re-commit."
-  Say "  2. The awesome-list submission is ready at:"
-  Say "     E:\deepseek workspace\awesome-submission\data\plugins\<owner>__<repo>.yml"
+  Say "  1. If the repository URL is not already the target one, substitute it in README.md,"
+  Say "     package.json (repository/homepage/bugs) and the awesome-list entry, then re-commit."
+  Say "  2. The awesome-list submission file is:"
+  Say "     E:\deepseek workspace\awesome-submission\data\plugins\${Owner}__${Repo}.yml"
   Say "  3. Submit it only after the repo is >= 1 day old (CI enforces that floor)."
 }
 finally {

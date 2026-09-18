@@ -40,7 +40,7 @@ Two consequences worth knowing before you install it:
 ## Install
 
 ```sh
-dsh plugin add github:zhengwsg/dsh-deepseek-usage
+dsh plugin add github:The-five-stooges/dsh-deepseek-usage
 ```
 
 `dsh plugin` forwards to pnpm inside the profile directory and then reconciles
@@ -55,7 +55,7 @@ Then restart the host process once (the host half is composed at startup) and re
 A prebuilt tarball is attached to every release and can be used instead:
 
 ```sh
-dsh plugin add https://github.com/zhengwsg/dsh-deepseek-usage/releases/latest/download/dsh-deepseek-usage.tgz
+dsh plugin add https://github.com/The-five-stooges/dsh-deepseek-usage/releases/latest/download/dsh-deepseek-usage.tgz
 ```
 
 Requires a `DEEPSEEK_API_KEY` in the harness credential store (or the launch environment). With

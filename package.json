@@ -56,11 +56,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/zhengwsg/dsh-deepseek-usage.git"
+    "url": "git+https://github.com/The-five-stooges/dsh-deepseek-usage.git"
   },
-  "homepage": "https://github.com/zhengwsg/dsh-deepseek-usage#readme",
+  "homepage": "https://github.com/The-five-stooges/dsh-deepseek-usage#readme",
   "bugs": {
-    "url": "https://github.com/zhengwsg/dsh-deepseek-usage/issues"
+    "url": "https://github.com/The-five-stooges/dsh-deepseek-usage/issues"
   },
   "license": "MIT"
 }
