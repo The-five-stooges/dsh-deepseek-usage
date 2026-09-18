@@ -64,16 +64,17 @@ try {
   # ------------------------------------------------------------- remote
   Say ""
   Say "== remote =="
-  $existing = & git remote get-url origin 2>$null
-  if ($existing) {
-    if ($existing -ne $remote) {
-      Say "  origin already set to $existing (leaving it alone; expected $remote)"
-    } else {
-      Say "  origin already correct"
-    }
-  } else {
+  # `git remote get-url` writes to stderr when origin is absent, and PowerShell 5.1 turns
+  # that into a terminating error under ErrorActionPreference=Stop — read it defensively.
+  $existing = $null
+  try { $existing = (& git remote get-url origin 2>$null) } catch { $existing = $null }
+  if ([string]::IsNullOrWhiteSpace($existing)) {
     & git remote add origin $remote
     Say "  added origin"
+  } elseif ($existing -ne $remote) {
+    Say "  origin already set to $existing (leaving it alone; expected $remote)"
+  } else {
+    Say "  origin already correct"
   }
 
   Say ""
